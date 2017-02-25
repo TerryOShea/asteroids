@@ -1,4 +1,4 @@
-//same as astreroids.js in directions
+//same as asteroids.js in directions
 
 const GameView = require('./lib/game_view.js');
 const Asteroid = require('./lib/asteroid.js');
