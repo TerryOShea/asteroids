@@ -18,9 +18,9 @@ const config = {
       }
     ]
   },
-  plugins: [
-    new webpack.optimize.UglifyJsPlugin()
-  ]
+  // plugins: [
+  //   new webpack.optimize.UglifyJsPlugin()
+  // ]
 };
 
 module.exports = config;

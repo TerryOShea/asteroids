@@ -1,1 +1,443 @@
-!function(t){function e(i){if(o[i])return o[i].exports;var n=o[i]={i:i,l:!1,exports:{}};return t[i].call(n.exports,n,n.exports,e),n.l=!0,n.exports}var o={};return e.m=t,e.c=o,e.i=function(t){return t},e.d=function(t,o,i){e.o(t,o)||Object.defineProperty(t,o,{configurable:!1,enumerable:!0,get:i})},e.n=function(t){var o=t&&t.__esModule?function(){return t.default}:function(){return t};return e.d(o,"a",o),o},e.o=function(t,e){return Object.prototype.hasOwnProperty.call(t,e)},e.p="",e(e.s=7)}([function(t,e,o){"use strict";function i(t){t.color=i.COLOR,t.radius=i.RADIUS,n.call(this,t)}var n=o(1),r=o(2);i.COLOR="green",i.RADIUS=3,r.inherits(i,n),t.exports=i},function(t,e,o){"use strict";function i(t,e){this.pos=t.pos,this.vel=t.vel,this.radius=t.radius,this.color=t.color,this.game=t.game}i.prototype.draw=function(t){t.beginPath(),t.arc(this.pos[0],this.pos[1],this.radius,0,2*Math.PI),t.fillStyle=this.color,t.fill()},i.prototype.move=function(){this.pos[0]+=this.vel[0],this.pos[1]+=this.vel[1],this.pos=this.game.wrap(this.pos)},i.prototype.isCollidedWith=function(t){var e=this.pos[0]-t.pos[0],o=this.pos[1]-t.pos[1],i=Math.sqrt(Math.pow(e,2)+Math.pow(o,2));return i<this.radius+t.radius},i.prototype.collideWith=function(t){},t.exports=i},function(t,e,o){"use strict";var i={inherits:function(t,e){t.prototype=Object.create(e.prototype),t.prototype.constructor=t},randomVec:function(t){var e=2*Math.PI*Math.random();return i.scale([Math.sin(e),Math.cos(e)],t)},scale:function(t,e){return[t[0]*e,t[1]*e]}};t.exports=i},function(t,e,o){"use strict";function i(t){t.color=i.COLOR,t.radius=i.RADIUS,t.vel=r.randomVec(5),n.call(this,t)}var n=o(1),r=o(2),s=o(5),a=o(0);i.COLOR="blue",i.RADIUS=10,r.inherits(i,n),i.prototype.collideWith=function(t){t instanceof s?t.relocate():t instanceof a&&(this.game.remove(t),this.game.remove(this))},t.exports=i},function(t,e,o){"use strict";function i(t){if(Array.isArray(t)){for(var e=0,o=Array(t.length);e<t.length;e++)o[e]=t[e];return o}return Array.from(t)}function n(){this.asteroids=this.addAsteroids(),this.ship=new a({pos:this.randomPosition(),game:this}),this.bullets=[]}var r=o(3),s=o(0),a=o(5);n.DIM_X=window.innerWidth,n.DIM_Y=window.innerHeight,n.NUM_ASTEROIDS=20,n.prototype.addAsteroids=function(){for(var t=[],e=0;e<n.NUM_ASTEROIDS;e++){var o=new r({pos:this.randomPosition(),game:this});t.push(o)}return t},n.prototype.randomPosition=function(){return[Math.random()*n.DIM_X,Math.random()*n.DIM_Y]},n.prototype.draw=function(t){t.clearRect(0,0,n.DIM_X,n.DIM_Y),this.allObjects().forEach(function(e){return e.draw(t)})},n.prototype.moveObjects=function(){this.allObjects().forEach(function(t){return t.move()})},n.prototype.wrap=function(t){var e=[].concat(i(t));return e[0]<=0?e[0]=n.DIM_X:e[0]>=n.DIM_X&&(e[0]=0),e[1]<=0?e[1]=n.DIM_Y:e[1]>=n.DIM_Y&&(e[1]=0),e},n.prototype.checkCollisions=function(){for(var t=this.allObjects(),e=0;e<t.length-1;e++)for(var o=e+1;o<t.length;o++)t[e].isCollidedWith(t[o])&&t[e].collideWith(t[o])},n.prototype.step=function(){this.moveObjects(),this.checkCollisions()},n.prototype.remove=function(t){t instanceof s?this.bullets.splice(this.bullets.indexOf(t),1):t instanceof r&&this.asteroids.splice(this.asteroids.indexOf(t),1)},n.prototype.allObjects=function(){return[].concat(i(this.asteroids),i(this.bullets),[this.ship])},t.exports=n},function(t,e,o){"use strict";function i(t,e){t.radius=i.RADIUS,t.vel=[0,0],t.color=i.COLOR,n.call(this,t)}var n=o(1),r=o(0),s=o(2);i.RADIUS=20,i.COLOR="#e24a4a",s.inherits(i,n),i.prototype.relocate=function(){this.pos=this.game.randomPosition(),this.vel=[0,0]},i.prototype.power=function(t){this.vel[0]+=t[0],this.vel[1]+=t[1]},i.prototype.fireBullet=function(){if(0!==this.vel[0]||0!==this.vel[1]){var t=[3*this.vel[0],3*this.vel[1]],e=new r({pos:this.pos,vel:t,game:this.game});this.game.bullets.push(e)}},t.exports=i},function(t,e,o){"use strict";function i(t){this.game=new n,this.ctx=t}var n=o(4);i.prototype.start=function(){var t=this;this.bindKeyHandlers(),setInterval(function(){t.game.step(),t.game.draw(t.ctx)},20)},i.prototype.bindKeyHandlers=function(){var t=this;key("down",function(){return t.game.ship.power([0,1])}),key("up",function(){return t.game.ship.power([0,-1])}),key("left",function(){return t.game.ship.power([-1,0])}),key("right",function(){return t.game.ship.power([1,0])}),key("space",function(){return t.game.ship.fireBullet()})},t.exports=i},function(t,e,o){"use strict";var i=o(6);o(3),o(4);document.addEventListener("DOMContentLoaded",function(){var t=document.getElementById("game-canvas");t.height=window.innerHeight,t.width=window.innerWidth;var e=t.getContext("2d");new i(e).start()})}]);
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId])
+/******/ 			return installedModules[moduleId].exports;
+
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+
+
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+
+/******/ 	// identity function for calling harmony imports with the correct context
+/******/ 	__webpack_require__.i = function(value) { return value; };
+
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, {
+/******/ 				configurable: false,
+/******/ 				enumerable: true,
+/******/ 				get: getter
+/******/ 			});
+/******/ 		}
+/******/ 	};
+
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = 7);
+/******/ })
+/************************************************************************/
+/******/ ([
+/* 0 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var Util = __webpack_require__(2);
+var MovingObject = __webpack_require__(1);
+
+function Bullet(options) {
+  options.color = Bullet.COLOR;
+  options.radius = Bullet.RADIUS;
+
+  MovingObject.call(this, options);
+}
+
+Bullet.COLOR = "red";
+Bullet.RADIUS = 3;
+
+Util.inherits(Bullet, MovingObject);
+
+Bullet.prototype.isWrappable = false;
+
+module.exports = Bullet;
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+function MovingObject(options, game) {
+  this.pos = options.pos;
+  this.vel = options.vel;
+  this.radius = options.radius;
+  this.color = options.color;
+  this.game = options.game;
+}
+
+MovingObject.prototype.isWrappable = true;
+
+MovingObject.prototype.draw = function (ctx) {
+  ctx.beginPath();
+  ctx.arc(this.pos[0], this.pos[1], this.radius, 0, 2 * Math.PI);
+  ctx.fillStyle = this.color;
+  ctx.fill();
+};
+
+MovingObject.prototype.move = function () {
+  this.pos[0] += this.vel[0];
+  this.pos[1] += this.vel[1];
+
+  if (!this.isWrappable && this.game.isOutOfBounds(this.pos)) {
+    this.game.remove(this);
+  } else {
+    this.pos = this.game.wrap(this.pos);
+  }
+};
+
+MovingObject.prototype.isCollidedWith = function (otherObject) {
+  var xdiff = this.pos[0] - otherObject.pos[0];
+  var ydiff = this.pos[1] - otherObject.pos[1];
+
+  var dist = Math.sqrt(Math.pow(xdiff, 2) + Math.pow(ydiff, 2));
+  return dist < this.radius + otherObject.radius;
+};
+
+MovingObject.prototype.collideWith = function (otherObject) {};
+
+module.exports = MovingObject;
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var Util = {
+  inherits: function inherits(ChildClass, ParentClass) {
+    ChildClass.prototype = Object.create(ParentClass.prototype);
+    ChildClass.prototype.constructor = ChildClass;
+  },
+
+
+  // Return a randomly oriented vector with the given length.
+  randomVec: function randomVec(length) {
+    var deg = 2 * Math.PI * Math.random();
+    return Util.scale([Math.sin(deg), Math.cos(deg)], length);
+  },
+
+
+  // Scale the length of a vector by the given amount.
+  scale: function scale(vec, m) {
+    return [vec[0] * m, vec[1] * m];
+  }
+};
+
+module.exports = Util;
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var Util = __webpack_require__(2);
+var MovingObject = __webpack_require__(1);
+var Ship = __webpack_require__(5);
+var Bullet = __webpack_require__(0);
+
+function Asteroid(options) {
+  options.color = Asteroid.COLOR;
+  options.radius = Asteroid.RADIUS;
+  options.vel = Util.randomVec(5);
+
+  MovingObject.call(this, options);
+}
+
+Util.inherits(Asteroid, MovingObject);
+
+Asteroid.COLOR = "white";
+Asteroid.RADIUS = 10;
+
+Asteroid.prototype.collideWith = function (otherObject) {
+  if (otherObject instanceof Ship) {
+    otherObject.relocate();
+  } else if (otherObject instanceof Bullet) {
+    this.game.remove(otherObject);
+    this.game.remove(this);
+  }
+};
+
+module.exports = Asteroid;
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+var Asteroid = __webpack_require__(3);
+var Bullet = __webpack_require__(0);
+var Ship = __webpack_require__(5);
+
+function Game() {
+  this.asteroids = this.addAsteroids();
+  this.ship = new Ship({ pos: this.randomPosition(), game: this });
+  this.bullets = [];
+  this.getImage();
+}
+
+Game.prototype.getImage = function () {
+  var _this = this;
+
+  var img = new Image();
+  img.onload = function () {
+    _this.img = img;
+  };
+  img.src = 'https://static.pexels.com/photos/51021/pexels-photo-51021.jpeg';
+};
+
+Game.DIM_X = window.innerWidth;
+Game.DIM_Y = window.innerHeight;
+Game.NUM_ASTEROIDS = 10;
+
+Game.prototype.addAsteroids = function () {
+  var asteroids = [];
+  for (var i = 0; i < Game.NUM_ASTEROIDS; i++) {
+    var a = new Asteroid({ pos: this.randomPosition(), game: this });
+    asteroids.push(a);
+  }
+  return asteroids;
+};
+
+Game.prototype.randomPosition = function () {
+  return [Math.random() * Game.DIM_X, Math.random() * Game.DIM_Y];
+};
+
+Game.prototype.draw = function (ctx) {
+  ctx.clearRect(0, 0, Game.DIM_X, Game.DIM_Y);
+  ctx.drawImage(this.img, 0, 0, Game.DIM_X, Game.DIM_Y);
+  this.allObjects().forEach(function (obj) {
+    return obj.draw(ctx);
+  });
+};
+
+Game.prototype.moveObjects = function () {
+  this.allObjects().forEach(function (obj) {
+    return obj.move();
+  });
+};
+
+Game.prototype.wrap = function (pos) {
+  var new_pos = [].concat(_toConsumableArray(pos));
+  if (new_pos[0] <= 0) {
+    new_pos[0] = Game.DIM_X;
+  } else if (new_pos[0] >= Game.DIM_X) {
+    new_pos[0] = 0;
+  }
+
+  if (new_pos[1] <= 0) {
+    new_pos[1] = Game.DIM_Y;
+  } else if (new_pos[1] >= Game.DIM_Y) {
+    new_pos[1] = 0;
+  }
+  return new_pos;
+};
+
+Game.prototype.checkCollisions = function () {
+  var objects = this.allObjects();
+  for (var i = 0; i < objects.length - 1; i++) {
+    for (var j = i + 1; j < objects.length; j++) {
+      if (objects[i].isCollidedWith(objects[j])) {
+        objects[i].collideWith(objects[j]);
+      }
+    }
+  }
+};
+
+Game.prototype.step = function () {
+  this.moveObjects();
+  this.checkCollisions();
+};
+
+Game.prototype.remove = function (obj) {
+  if (obj instanceof Bullet) {
+    this.bullets.splice(this.bullets.indexOf(obj), 1);
+  } else if (obj instanceof Asteroid) {
+    this.asteroids.splice(this.asteroids.indexOf(obj), 1);
+  }
+};
+
+Game.prototype.allObjects = function () {
+  return [].concat(_toConsumableArray(this.asteroids), _toConsumableArray(this.bullets), [this.ship]);
+};
+
+Game.prototype.isOutOfBounds = function (pos) {
+  return pos[0] < 0 || pos[0] > Game.DIM_X || pos[1] < 0 || pos[1] > Game.DIM_Y;
+};
+
+module.exports = Game;
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var MovingObject = __webpack_require__(1);
+var Util = __webpack_require__(2);
+var Bullet = __webpack_require__(0);
+
+function Ship(options, game) {
+  options.radius = Ship.RADIUS;
+  options.vel = [0, 0];
+  options.color = Ship.COLOR;
+
+  MovingObject.call(this, options);
+}
+
+Ship.RADIUS = 20;
+Ship.COLOR = "#f4c242";
+
+Util.inherits(Ship, MovingObject);
+
+Ship.prototype.relocate = function () {
+  this.pos = this.game.randomPosition();
+  this.vel = [0, 0];
+};
+
+Ship.prototype.power = function (impulse) {
+  this.vel[0] += impulse[0];
+  this.vel[1] += impulse[1];
+
+  if (this.vel[0] < -8) {
+    this.vel[0] = -8;
+  }
+  if (this.vel[0] > 8) {
+    this.vel[0] = 8;
+  }
+  if (this.vel[1] < -8) {
+    this.vel[1] = -8;
+  }
+  if (this.vel[1] > 8) {
+    this.vel[1] = 8;
+  }
+};
+
+Ship.prototype.fireBullet = function () {
+  if (this.vel[0] !== 0 || this.vel[1] !== 0) {
+    var bullet_vel = [this.vel[0] * 1.5, this.vel[1] * 1.5];
+    var b = new Bullet({ pos: this.pos, vel: bullet_vel, game: this.game });
+    this.game.bullets.push(b);
+  }
+};
+
+module.exports = Ship;
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var Game = __webpack_require__(4);
+
+function GameView(ctx) {
+  this.game = new Game();
+  this.ctx = ctx;
+}
+
+GameView.prototype.start = function () {
+  var _this = this;
+
+  this.bindKeyHandlers();
+  setInterval(function () {
+    _this.game.step();
+    _this.game.draw(_this.ctx);
+  }, 20);
+};
+
+GameView.prototype.bindKeyHandlers = function () {
+  var _this2 = this;
+
+  key('down', function () {
+    return _this2.game.ship.power([0, 1]);
+  });
+  key('up', function () {
+    return _this2.game.ship.power([0, -1]);
+  });
+  key('left', function () {
+    return _this2.game.ship.power([-1, 0]);
+  });
+  key('right', function () {
+    return _this2.game.ship.power([1, 0]);
+  });
+  key('space', function () {
+    return _this2.game.ship.fireBullet();
+  });
+};
+
+module.exports = GameView;
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+//same as astreroids.js in directions
+
+var GameView = __webpack_require__(6);
+var Asteroid = __webpack_require__(3);
+var Game = __webpack_require__(4);
+
+document.addEventListener("DOMContentLoaded", function () {
+  var canvasEl = document.getElementById("game-canvas");
+  canvasEl.height = window.innerHeight;
+  canvasEl.width = window.innerWidth;
+  var ctx = canvasEl.getContext('2d');
+  new GameView(ctx).start();
+});
+
+/***/ })
+/******/ ]);

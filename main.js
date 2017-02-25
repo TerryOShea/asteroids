@@ -9,6 +9,5 @@ document.addEventListener("DOMContentLoaded", () => {
   canvasEl.height = window.innerHeight;
   canvasEl.width = window.innerWidth;
   const ctx = canvasEl.getContext('2d');
-
   new GameView(ctx).start();
 });
